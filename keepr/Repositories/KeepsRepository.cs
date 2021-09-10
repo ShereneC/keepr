@@ -71,11 +71,11 @@ namespace keepr.Repositories
       return GetKeepById(updatedKeep.Id);
     }
 
-    internal void DeleteKeep(int keepId)
+    internal void DeleteKeep(int id)
     // passing postman test
     {
-      string sql = "DELETE FROM keeps WHERE id = @keepId LIMIT 1;";
-      _db.Execute(sql, new { keepId });
+      string sql = "DELETE FROM keeps WHERE id = @id LIMIT 1;";
+      _db.Execute(sql, new { id });
     }
   }
 }
