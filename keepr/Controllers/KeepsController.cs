@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeWorks.Auth0Provider;
 using keepr.Models;
@@ -17,6 +18,35 @@ namespace keepr.Controllers
         {
             _ks = ks;
         }
+
+    [HttpGet]
+    public ActionResult<List<Keep>>  GetAllKeeps()
+    {
+        try
+        {
+             List<Keep> keeps = _ks.GetAllKeeps();
+             return Ok(keeps);
+        }
+      catch (Exception err)
+      {
+        return BadRequest(err.Message);
+      }
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<Keep> GetKeepById(int id)
+    {
+        try
+        {
+             Keep keep = _ks.GetKeepById(id);
+             return Ok(keep);
+
+        }
+      catch (Exception err)
+      {
+        return BadRequest(err.Message);
+      }
+    }
 
     [HttpPost]
     [Authorize]
