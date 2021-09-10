@@ -13,14 +13,14 @@ namespace keepr.Repositories
       {
           _db = db;
       }
-    internal List<Keep> GetAllKeeps()
+    public List<Keep> GetAllKeeps()
     // This postman test is passing, I guess it didn't need to populate the creator.  I'm leaving it as is for now.
     {
       string sql = "SELECT * FROM keeps;";
       return _db.Query<Keep>(sql).ToList();
     }
 
-    internal Keep GetKeepById(int id)
+    public Keep GetKeepById(int id)
     {
       string sql = @" 
             SELECT 
@@ -37,7 +37,7 @@ namespace keepr.Repositories
       }
     
 
-    internal Keep CreateKeep(Keep newKeep)
+    public Keep CreateKeep(Keep newKeep)
     // passing Postman tests
     {
       string sql = @"
@@ -53,5 +53,29 @@ namespace keepr.Repositories
       return GetKeepById(newKeep.Id);
     }
 
+    public Keep EditKeep(Keep updatedKeep)
+    //passing postman tests
+    {
+      string sql = @"
+      UPDATE keeps
+      SET
+        name = @Name,
+        description = @Description,
+        img = @Img,
+        views = @Views,
+        shares = @Shares,
+        keeps = @Keeps
+      WHERE id = @Id
+      ;";
+      _db.Execute(sql, updatedKeep);
+      return GetKeepById(updatedKeep.Id);
+    }
+
+    internal void DeleteKeep(int keepId)
+    // passing postman test
+    {
+      string sql = "DELETE FROM keeps WHERE id = @keepId LIMIT 1;";
+      _db.Execute(sql, new { keepId });
+    }
   }
 }

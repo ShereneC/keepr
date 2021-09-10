@@ -65,5 +65,39 @@ namespace keepr.Controllers
         return BadRequest(err.Message);
       }
     }
+
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<ActionResult<Keep>> EditKeep([FromBody] Keep updatedKeep, int id)
+    {
+        try
+        {
+             Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+             updatedKeep.CreatorId = userInfo.Id;
+             updatedKeep.Id = id;
+             Keep keep = _ks.EditKeep(updatedKeep);
+             return Ok(keep);
+        }
+      catch (Exception err)
+      {
+        return BadRequest(err.Message);
+      }
+    }
+
+        [HttpDelete("{id}")]
+    [Authorize]
+    public async Task<ActionResult<Keep>> Delete(int id)
+    {
+        try
+        {
+           Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+           _ks.DeleteKeep(id, userInfo.Id);
+           return Ok("The Keep Has Been Deleted!");  
+        }
+      catch (Exception err)
+      {
+        return BadRequest(err.Message);
+      }
+    }
     }
 }
