@@ -46,5 +46,24 @@ namespace keepr.Repositories
       return GetById(newVault.Id);
     }
 
+    internal Vault EditVault(Vault original)
+    {
+      string sql = @"
+      UPDATE vaults
+      SET
+          name = @Name,
+          description = @Description,
+          isPrivate = @IsPrivate
+      WHERE id = @Id;
+      ";
+      _db.Execute(sql, original);
+      return GetById(original.Id);
+    }
+
+    internal void DeleteVault(int vaultId)
+    {
+      string sql = "DELETE FROM vaults WHERE id = @vaultId LIMIT 1;";
+      _db.Execute(sql, new { vaultId });
+    }
   }
 }
