@@ -10,6 +10,7 @@ namespace keepr.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
+    [Authorize]
     public class VaultKeepsController : ControllerBase
     {
         private readonly VaultKeepsService _vks;
@@ -18,9 +19,8 @@ namespace keepr.Controllers
             _vks = vks;
         }
 
-    [HttpPost]
-    [Authorize]
 
+    [HttpPost]
     public async Task<ActionResult<VaultKeep>> CreateVaultKeep([FromBody] VaultKeep newVaultKeep)
     {
         try
@@ -35,5 +35,21 @@ namespace keepr.Controllers
         return BadRequest(err.Message);
       }
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<String>> Delete(int id)
+    {
+      try
+      {
+           Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+           _vks.RemoveKeepFromVault(id, userInfo.Id);
+           return Ok("The keep has been removed");
+      }
+      catch (Exception err)
+      {
+        return BadRequest(err.Message);
+      }
+    }
+
     }
 }

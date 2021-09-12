@@ -59,6 +59,16 @@ namespace keepr.Repositories
     //   }, new { vaultId }, splitOn: "id").ToList<VaultKeepViewModel>();
     // }
 
-    
+    internal VaultKeep GetVaultKeepById(int vkId)
+    {
+      string sql = "SELECT * FROM vaultKeeps WHERE id = @vkId";
+      return _db.QueryFirstOrDefault<VaultKeep>(sql, new { vkId });
+    }
+
+    internal void RemoveKeepFromVault(int vkId)
+    {
+      string sql = "DELETE FROM vaultKeeps WHERE id = @vkId LIMIT 1";
+      _db.Execute(sql, new { vkId });
+    }
   }
 }

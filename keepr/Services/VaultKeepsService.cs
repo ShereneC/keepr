@@ -33,5 +33,25 @@ namespace keepr.Services
       }
         return _repo.GetKeepsInVault(vaultId);
     }
+
+
+    private VaultKeep GetVaultKeepById(int vkId)
+    {
+       VaultKeep found = _repo.GetVaultKeepById(vkId);
+       if (found == null)
+       {
+           throw new Exception("There is no relationship found");
+       }
+       return found;
+    }
+    internal void RemoveKeepFromVault(int vkId, string userId)
+    {
+      VaultKeep keepToRemove = GetVaultKeepById(vkId);
+      if (keepToRemove.CreatorId != userId)
+      {
+          throw new Exception("This is not your keep to remove");
+      }
+      _repo.RemoveKeepFromVault(vkId);
+    }
   }
 }
