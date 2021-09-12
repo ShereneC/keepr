@@ -23,7 +23,7 @@ namespace keepr.Controllers
     {
         try
         {
-             Vault vault = _vs.GetVaultById(id);
+             Vault vault = _vs.GetVaultById(id, true);
              return Ok(vault);
 
         }
