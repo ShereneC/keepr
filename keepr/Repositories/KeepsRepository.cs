@@ -35,7 +35,7 @@ namespace keepr.Repositories
           return keep;
       }, new { id }, splitOn: "id").FirstOrDefault();
       }
-    
+
 
     public Keep CreateKeep(Keep newKeep)
     // passing Postman tests
@@ -51,6 +51,22 @@ namespace keepr.Repositories
       // REVIEW 1 Failed this test because I'm not populating the object creator.  I think if I do a getbyId here it will handle that, so I'll move on to Get By ID
       newKeep.Id = _db.ExecuteScalar<int>(sql, newKeep);
       return GetKeepById(newKeep.Id);
+    }
+
+    internal List<Keep> GetKeepsByProfile(string profileId)
+    {
+      string sql = @"
+      SELECT 
+        a.*,
+        k.*
+      FROM keeps k
+      JOIN accounts a ON a.id = k.creatorId
+      WHERE k.creatorId = @profileId;";
+      return _db.Query<Profile, Keep, Keep>(sql, (prof, keep) =>
+      {
+        keep.Creator = prof;
+        return keep;
+      }, new { profileId }, splitOn: "id").ToList<Keep>();
     }
 
     public Keep EditKeep(Keep updatedKeep)
