@@ -41,7 +41,6 @@ namespace keepr.Repositories
       SELECT LAST_INSERT_ID();
       ";
       // I think this attaches the id to it and sends the id back (attached to the newKeep)
-      // REVIEW 1 Failed this test because I'm not populating the object creator.  I think if I do a getbyId here it will handle that, so I'll move on to Get By ID
       newVault.Id = _db.ExecuteScalar<int>(sql, newVault);
       return GetById(newVault.Id);
     }
