@@ -9,10 +9,12 @@ namespace keepr.Services
   {
       private readonly ProfilesRepository _repo;
       private readonly KeepsRepository _krepo;
-      public ProfilesService(ProfilesRepository repo, KeepsRepository krepo)
+      private readonly VaultsRepository _vrepo;
+      public ProfilesService(ProfilesRepository repo, KeepsRepository krepo, VaultsRepository vrepo)
       {
           _repo = repo;
           _krepo = krepo;
+          _vrepo = vrepo;
       }
     internal Profile GetProfileById(string id)
     {
@@ -28,6 +30,20 @@ namespace keepr.Services
     {
       List<Keep> keeps = _krepo.GetKeepsByProfile(profileId);
       return keeps;
+    }
+
+    internal List<Vault> GetVaultsByProfile(string profileId)
+    {
+      List<Vault> vaults = _vrepo.GetVaultsByProfile(profileId);
+      return vaults;
+    }
+
+    internal List<Vault> GetOwnVaults(string profileId)
+    {
+
+        List<Vault> vaults = _vrepo.GetOwnVaults(profileId);
+
+    return vaults;
     }
   }
 }

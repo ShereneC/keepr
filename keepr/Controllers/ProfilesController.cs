@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using CodeWorks.Auth0Provider;
 using keepr.Models;
 using keepr.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers
 {
-    [ApiController]
+  [ApiController]
     [Route("/api/[controller]")]
     public class ProfilesController : ControllerBase
     {
@@ -46,5 +48,41 @@ namespace keepr.Controllers
             return BadRequest(err.Message);
         }
         }
+
+
+        [HttpGet("{id}/vaults")]
+        public async Task<ActionResult<List<Vault>>>  GetVaultsByProfile(string id)
+        {
+        try
+        {
+             Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+             if (userInfo == null || userInfo.Id != id) {
+             List<Vault> vaults = _ps.GetVaultsByProfile(id);
+             return vaults;
+             }
+             List<Vault> vaultsOwn = _ps.GetOwnVaults(id);
+             return vaultsOwn;
+        }
+        catch (Exception err)
+        {
+            return BadRequest(err.Message);
+        }
+        }
+// REVIEW can I do a second id/vaults path this one will be authorized???? No!!! Cannot have matchine routes!
+        // [HttpGet("{id}/vaults")]
+        // [Authorize]
+        // public async Task<ActionResult<List<Vault>>> GetOwnVaults(string id)
+        // {
+        // try
+        // {
+        //      Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        //      List<Vault> vaults = _ps.GetOwnVaults(id, userInfo.Id);
+        //      return vaults;
+        // }
+        // catch (Exception err)
+        // {
+        //     return BadRequest(err.Message);
+        // }
+        // }
     }
 }

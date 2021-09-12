@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dapper;
@@ -43,6 +44,38 @@ namespace keepr.Repositories
       // I think this attaches the id to it and sends the id back (attached to the newKeep)
       newVault.Id = _db.ExecuteScalar<int>(sql, newVault);
       return GetById(newVault.Id);
+    }
+
+
+    internal List<Vault> GetVaultsByProfile(string profileId)
+    {
+      string sql = @"
+      SELECT
+        a.*,
+        v.*
+        FROM vaults v
+        JOIN accounts a ON a.id = v.creatorId
+        WHERE v.creatorId = @profileId AND isPrivate = 0;";
+      return _db.Query<Profile, Vault, Vault>(sql, (prof, vault) =>
+      {
+        vault.Creator = prof;
+        return vault;
+      }, new { profileId }, splitOn: "id").ToList<Vault>();
+    }
+    internal List<Vault> GetOwnVaults(string profileId)
+    {
+      string sql = @"
+      SELECT
+        a.*,
+        v.*
+        FROM vaults v
+        JOIN accounts a ON a.id = v.creatorId
+        WHERE v.creatorId = @profileId;";
+      return _db.Query<Profile, Vault, Vault>(sql, (prof, vault) =>
+      {
+        vault.Creator = prof;
+        return vault;
+      }, new { profileId }, splitOn: "id").ToList<Vault>();
     }
 
     internal Vault EditVault(Vault original)
