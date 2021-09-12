@@ -68,21 +68,5 @@ namespace keepr.Controllers
             return BadRequest(err.Message);
         }
         }
-// REVIEW can I do a second id/vaults path this one will be authorized???? No!!! Cannot have matchine routes!
-        // [HttpGet("{id}/vaults")]
-        // [Authorize]
-        // public async Task<ActionResult<List<Vault>>> GetOwnVaults(string id)
-        // {
-        // try
-        // {
-        //      Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        //      List<Vault> vaults = _ps.GetOwnVaults(id, userInfo.Id);
-        //      return vaults;
-        // }
-        // catch (Exception err)
-        // {
-        //     return BadRequest(err.Message);
-        // }
-        // }
     }
 }

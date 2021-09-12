@@ -32,7 +32,6 @@ namespace keepr.Repositories
     }
 
     internal Vault CreateVault(Vault newVault)
-    // passing postman except for data.creator, soI think I need to populate, will do that by doing getbyid after that is made.
     {
       string sql = @"
       INSERT INTO vaults
