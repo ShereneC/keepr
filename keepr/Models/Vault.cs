@@ -18,4 +18,9 @@ namespace keepr.Models
         public string CreatorId { get; set; }
         public Profile Creator { get; set; }
     }
+//NOTE do I need this view model???
+    //   public class VaultKeepViewModel : Vault
+    // {
+    //   public int VaultKeepId { get; set; }
+    // }
 }

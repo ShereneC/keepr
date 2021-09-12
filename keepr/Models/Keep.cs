@@ -17,4 +17,12 @@ namespace keepr.Models
         public string CreatorId { get; set; }
         public Profile Creator { get; set; }
     }
+
+    public class VaultKeepViewModel : Keep
+    {
+      public int VaultKeepId { get; set; }
+      
+      // REVIEW I added Vault (below) to try and get the populate to work on VaultKeepsRepo GetKeepsInVault  - do I need this?
+      public Vault Vault {get; set;}
+    }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using keepr.Models;
 using keepr.Repositories;
 
@@ -22,5 +23,15 @@ namespace keepr.Services
       }
       return _repo.CreateVaultKeep(newVaultKeep);
     }
+
+    internal List<VaultKeepViewModel> GetKeepsInVault(int vaultId)
+    {
+      Vault foundVault = _vaultsRepo.GetById(vaultId);
+      if (foundVault.IsPrivate == true)
+      {
+          throw new Exception("Sorry, this is a private vault.");
+      }
+        return _repo.GetKeepsInVault(vaultId);
     }
+  }
 }
