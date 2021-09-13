@@ -16,8 +16,17 @@ namespace keepr.Repositories
     public List<Keep> GetAllKeeps()
     // This postman test is passing, I guess it didn't need to populate the creator.  I'm leaving it as is for now.
     {
-      string sql = "SELECT * FROM keeps;";
-      return _db.Query<Keep>(sql).ToList();
+      string sql = @"
+      SELECT
+      a.*,
+      k.* 
+      FROM keeps k
+      JOIN accounts a ON a.id = k.creatorId;";
+      return _db.Query<Profile, Keep, Keep>(sql, (prof, keep) =>
+      {
+        keep.Creator = prof;
+        return keep;
+      }, splitOn: "id").ToList();
     }
 
     public Keep GetKeepById(int id)

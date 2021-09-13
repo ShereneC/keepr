@@ -28,9 +28,10 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="{ name: 'About' }" class="nav-link">
+          <!-- <router-link :to="{ name: 'About' }" class="nav-link">
             About
-          </router-link>
+          </router-link> -->
+          <!-- This could become the logged in user's profile page -->
         </li>
       </ul>
       <span class="navbar-text">
