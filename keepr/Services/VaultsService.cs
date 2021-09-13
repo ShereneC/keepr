@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using keepr.Models;
 using keepr.Repositories;
 
@@ -11,13 +12,21 @@ namespace keepr.Services
       {
           _repo = repo;
       }
-    internal Vault GetVaultById(int id, bool careIfPrivate)
+    internal Vault GetVaultById(int id, [Optional] string userId)
     {
       Vault vault = _repo.GetById(id);
-      if (vault == null || (careIfPrivate  && vault.IsPrivate == true))
+      if (((userId != null && vault.CreatorId != userId) || userId == null) && vault.IsPrivate == false)
+      // If they are not the creator or not logged in AND it is not a private vault, then return it.
       {
-          throw new Exception("Vault does not exist OR You are unable to view this vault");
+        return vault;
       }
+      if (((userId != null && vault.CreatorId != userId) || userId == null) && vault.IsPrivate == true)
+      //If they are not the creator or not logged in AND it is a private vault, throw the error
+      // NOTE I am no longer null checking.
+      {
+        throw new Exception("You are unable to view this vault");
+      }
+      //if they get this far, they are the owner, so they can get the vault.
       return vault;
     }
     internal Vault CreateVault(Vault newVault)
@@ -29,7 +38,8 @@ namespace keepr.Services
     {
         // FIXME I need an if statement to determine whether I send true or false to GetById! I might have to pass in the userId!!! But then I still have to go get the Getbyid, hmmmm....
         // if (original.CreatorId )
-      Vault original = GetVaultById(editedVault.Id, false);
+      Vault original = GetVaultById(editedVault.Id);
+      //took out the false variable here (above)
       if (original == null)
       {
           throw new Exception("There is no vault here - bad Id");
@@ -47,7 +57,8 @@ namespace keepr.Services
         internal void DeleteVault(int vaultId, string userId)
     {
         // also need to allow owner to getbyid and delete even if private
-      Vault vaultToDelete = GetVaultById(vaultId, false);
+      Vault vaultToDelete = GetVaultById(vaultId);
+      // took out the false variable (above)
       if (vaultToDelete.CreatorId != userId)
       {
           throw new Exception("Not your Vault to delete!");

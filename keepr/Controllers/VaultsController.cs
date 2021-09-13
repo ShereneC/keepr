@@ -22,13 +22,18 @@ namespace keepr.Controllers
         }
 
     [HttpGet("{id}")]
-    public ActionResult<Vault> GetVaultById(int id)
+    public async Task<ActionResult<Vault>> GetVaultById(int id)
     {
         try
         {
-             Vault vault = _vs.GetVaultById(id, true);
+             Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+             if (userInfo == null) {
+             Vault vaultNoAuth = _vs.GetVaultById(id);
+             return Ok(vaultNoAuth);
+             }
+             Vault vault = _vs.GetVaultById(id, userInfo.Id);
+             //took out the true variable here. (above)
              return Ok(vault);
-
         }
       catch (Exception err)
       {
