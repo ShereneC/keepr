@@ -2,15 +2,23 @@
   <div class="keep card img-fluid rounded elevation-1 bg-light my-3 p-3 text-left selectable">
     <img class="card-img-top" :src="keep.img" alt="Card image" style="width:100%">
     <div class="card-img-overlay d-flex">
-      <h4 class="card-title text-light titleText mt-auto">
+      <h4 class="card-title text-light titleText mt-auto"
+          data-toggle="modal"
+          :data-target="'#keep-modal' + keep.id"
+          title="See Keep Details"
+      >
         {{ keep.name }}
       </h4>
-      <img :src="keep.creator.picture" alt="profile image" class="profile-pic mt-auto ml-auto">
+      <router-link class="mt-auto ml-auto" :to="{name: 'ProfilePage', params: {id: keep.creatorId}}">
+        <img :src="keep.creator.picture" alt="profile image" class="profile-pic mt-auto ml-auto">
+      </router-link>
     </div>
   </div>
+  <KeepModal :keep="keep" />
 </template>
 
 <script>
+import { AppState } from '../AppState'
 export default {
   props: {
     keep: {
@@ -18,8 +26,12 @@ export default {
       required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    return {
+      async setActiveKeep() {
+        AppState.activeKeep = props.keep
+      }
+    }
   },
   components: {}
 }
