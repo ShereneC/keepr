@@ -10,6 +10,7 @@ class KeepsService {
   }
 
   async getKeepById(id) {
+    // This was for the activeKeep, but I don't think I'm using it.
     const found = AppState.keeps.find(k => k.id.toString() === id)
     if (found) {
       AppState.activeKeep = found
@@ -18,6 +19,12 @@ class KeepsService {
     const res = await api.get(`api/keeps/${id}`)
     logger.log(res.data)
     AppState.activeKeep = res.data
+  }
+
+  async getKeepsByProfileId(id) {
+    const res = await api.get(`api/profiles/${id}/keeps`)
+    logger.log(res.data)
+    AppState.keeps = res.data
   }
 }
 
