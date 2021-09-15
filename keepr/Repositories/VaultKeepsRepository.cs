@@ -29,35 +29,35 @@ namespace keepr.Repositories
 
     internal List<VaultKeepViewModel> GetKeepsInVault(int vaultId)
     // TODO do not understand why this one is passing "creator populated"  because it is not. Can't figure out  how to get that on there. My attempt at getting creator to populate is below - need to ask for help.
-    {
-      string sql = @"
-      SELECT
-        k.*,
-        vk.id AS vaultKeepId
-      FROM vaultKeeps vk
-      JOIN keeps k ON vk.keepId = k.id
-      WHERE vk.vaultId = @vaultId;
-      ";
-      return _db.Query<VaultKeepViewModel>(sql, new { vaultId }).ToList();
-    }
-    //     {
+    // {
     //   string sql = @"
     //   SELECT
-    //     a.*,
-    //     vk.*,
-    //     k.*
+    //     k.*,
+    //     vk.id AS vaultKeepId
     //   FROM vaultKeeps vk
-    //   JOIN accounts a ON k.creatorId = a.id,
     //   JOIN keeps k ON vk.keepId = k.id
     //   WHERE vk.vaultId = @vaultId;
     //   ";
-    //   return _db.Query<Profile, VaultKeepViewModel, Vault, VaultKeepViewModel>(sql, (prof, keep, vault) => 
-    //   {
-    //     keep.Creator = prof;
-    //     keep.Vault = vault;
-    //     return keep;
-    //   }, new { vaultId }, splitOn: "id").ToList<VaultKeepViewModel>();
+    //   return _db.Query<VaultKeepViewModel>(sql, new { vaultId }).ToList();
     // }
+        {
+          // Harrison helped me with this... was stuck on it for hours :(
+      string sql = @"
+      SELECT
+        vk.keepId AS vaultKeepId,
+        k.*,
+        a.*
+      FROM vaultKeeps vk
+      JOIN keeps k ON k.id = vk.keepId
+      JOIN accounts a ON a.id = k.creatorId
+      WHERE vaultId = @vaultId;
+      ";
+      return _db.Query<VaultKeepViewModel, Profile, VaultKeepViewModel>(sql, (vaultkeep, prof) => 
+      {
+        vaultkeep.Creator = prof;
+        return vaultkeep;
+      }, new { vaultId }, splitOn: "id").ToList<VaultKeepViewModel>();
+    }
 
     internal VaultKeep GetVaultKeepById(int vkId)
     {

@@ -21,7 +21,7 @@
           <h5 class="text-center"></h5>
         </div>
         <div class="div px-2">
-          <span class="fa fa-plus" data-toggle="modal" data-target="#new-vault-modal"></span>
+          <span class="fa fa-plus" title="Click to Add New" data-toggle="modal" data-target="#new-vault-modal"></span>
         </div>
       </div>
     </div>
