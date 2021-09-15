@@ -3,6 +3,16 @@ import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
 class VaultsService {
+  async getVaultById(id) {
+    const found = AppState.vaults.find(v => v.id.toString() === id)
+    if (found) {
+      AppState.activeVault = found
+      return
+    }
+    const res = await api.get(`api/vaults/${id}`)
+    AppState.activeVault = res.data
+  }
+
   async getVaultsByProfileId(id) {
     const res = await api.get(`api/profiles/${id}/vaults`)
     logger.log(res.data)

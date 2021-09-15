@@ -8,9 +8,11 @@
       Public Vault
     </div>
     <div class="card-body">
-      <h5 class="card-title">
-        {{ vault.name }}
-      </h5>
+      <router-link class="mt-auto ml-auto" :to="{name: 'VaultDetails', params: {id: vault.id}}">
+        <h5 class="card-title">
+          {{ vault.name }}
+        </h5>
+      </router-link>
       <p class="card-text">
         {{ vault.description }}
       </p>
