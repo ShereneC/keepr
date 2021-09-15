@@ -81,6 +81,7 @@ export default {
           state.newVault = { isPrivate: false }
           // again do I need to put isPrivate in here - is this default or will it overwrite what the form is doing?//
           $('#new-vault-modal').modal('hide')
+          state.newVault = {}
         } catch (error) {
           Pop.toast(error, 'error')
         }
