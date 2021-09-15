@@ -43,7 +43,7 @@
           <h5 class="text-center"></h5>
         </div>
         <div class="div px-2">
-          <span class="fa fa-plus"></span>
+          <span class="fa fa-plus" data-toggle="modal" data-target="#new-keep-modal"></span>
         </div>
       </div>
     </div>
@@ -55,6 +55,7 @@
         </div>
       </div>
     </div>
+    <NewKeepModal />
   </div>
 </template>
 
