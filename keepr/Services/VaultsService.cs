@@ -57,7 +57,7 @@ namespace keepr.Services
         internal void DeleteVault(int vaultId, string userId)
     {
         // also need to allow owner to getbyid and delete even if private
-      Vault vaultToDelete = GetVaultById(vaultId);
+      Vault vaultToDelete = GetVaultById(vaultId, userId);
       // took out the false variable (above)
       if (vaultToDelete.CreatorId != userId)
       {
