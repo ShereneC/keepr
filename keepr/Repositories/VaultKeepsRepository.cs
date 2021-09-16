@@ -44,7 +44,7 @@ namespace keepr.Repositories
           // Harrison helped me with this... was stuck on it for hours :(
       string sql = @"
       SELECT
-        vk.keepId AS vaultKeepId,
+        vk.id AS vaultKeepId,
         k.*,
         a.*
       FROM vaultKeeps vk

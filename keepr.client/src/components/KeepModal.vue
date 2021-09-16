@@ -153,7 +153,7 @@ export default {
             await keepsService.deleteKeep(props.keep.id)
             $('#keep-modal' + props.keep.id).modal('hide')
             Pop.toast('Successfully Deleted!', 'success')
-            router.push({ name: 'Home' })
+            // router.push({ name: 'Home' })
           }
         } catch (error) {
           Pop.toast(error, 'error')

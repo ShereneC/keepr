@@ -44,6 +44,11 @@ class KeepsService {
     AppState.vaultKeep = res.data
     // should I call get all vaults here or something? Then should I push them to the vault details page?
   }
+
+  async removeKeepFromVault(id) {
+    await api.delete('api/vaultkeeps/' + id)
+    // REVIEW do i need to call getallkeeps?  I would have to pass in a profile id as well.
+  }
 }
 
 export const keepsService = new KeepsService()

@@ -3,7 +3,9 @@
     <div class="row">
       <div class="col-12 d-flex align-items-center justify-content-between">
         <h1>{{ vault.name }}</h1>
-        <h5 class="fa fa-trash text-red"></h5>
+        <h5 class="m-0 hoverable" v-if="account.id==vault.creatorId" :title="'Delete ' + vault.name" @click="deleteVault">
+          <span class="fa fa-trash text-red"></span>
+        </h5>
       </div>
       <div class="col-12">
         <h4>{{ vault.description }}</h4>
@@ -19,7 +21,6 @@
       </div>
       <div class="col-12">
         <div class="card-columns">
-          <!-- TODO something happened when I put this in, things show up, but I am getting an error in the console and it breaks my links moving forward - something about cannot read property picture of null (keep.vue line 13)  but the picture is showing up!  Ah-ha! It is because getKeepsInVault in the VaultKeepsREpository is not populating - need to get that to populate!!!! -->
           <Keep v-for="k in keeps" :key="k.id" :keep="k" />
         </div>
       </div>
@@ -29,7 +30,8 @@
 
 <script>
 import { computed, onMounted } from '@vue/runtime-core'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+
 import { AppState } from '../AppState'
 import { vaultsService } from '../services/VaultsService'
 import Pop from '../utils/Notifier'
@@ -39,21 +41,41 @@ export default {
 
   setup() {
     const route = useRoute()
+    const router = useRouter()
+    // const goHome = ref(false)
     onMounted(async() => {
       try {
         await vaultsService.getVaultById(route.params.id)
+        // if (res.isPrivate === true && res.creatorId !== account.id) {
+        //   route.push({ name: 'Home' })
+        // }
         await keepsService.getKeepsByVaultId(route.params.id)
       } catch (error) {
         Pop.toast(error, 'error')
+        router.push({ name: 'Home' })
       }
     }
     )
     return {
       vault: computed(() => AppState.activeVault),
       keeps: computed(() => AppState.keeps),
+      account: computed(() => AppState.account),
       numberKeeps: computed(() => {
         return AppState.keeps.length
-      })
+      }),
+      async deleteVault() {
+        try {
+          if (await Pop.confirm()) {
+            await vaultsService.deleteVault(route.params.id)
+            Pop.toast('Successfully Deleted!', 'success')
+            // NOTE hey! this works - totally awesome!
+            router.go(-1)
+          }
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      }
+
     }
   }
 

@@ -20,7 +20,7 @@
         <div class="div">
           <h5 class="text-center"></h5>
         </div>
-        <div class="div px-2">
+        <div class="div px-2" v-if="profile.id === account.id">
           <span class="fa fa-plus text-blue hoverable" title="Click to Add New" data-toggle="modal" data-target="#new-vault-modal"></span>
         </div>
       </div>
@@ -44,7 +44,7 @@
         <div class="div">
           <h5 class="text-center"></h5>
         </div>
-        <div class="div px-2">
+        <div class="div px-2" v-if="profile.id === account.id">
           <span class="fa fa-plus text-blue hoverable" title="Create New Keep" data-toggle="modal" data-target="#new-keep-modal"></span>
         </div>
       </div>
