@@ -14,10 +14,11 @@
       </router-link>
     </div>
   </div>
-  <KeepModal :keep="keep" />
+  <KeepModal :keep="keep" :vault="vault" />
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 export default {
   props: {
@@ -28,6 +29,7 @@ export default {
   },
   setup(props) {
     return {
+      vaults: computed(() => AppState.vaults),
       async setActiveKeep() {
         AppState.activeKeep = props.keep
       }

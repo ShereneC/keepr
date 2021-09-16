@@ -9,7 +9,8 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: loadPage('HomePage')
+    component: loadPage('HomePage'),
+    beforeEnter: authSettled
   },
   {
     path: '/vaults/:id',
@@ -20,7 +21,8 @@ const routes = [
   {
     path: '/profiles/:id',
     name: 'ProfilePage',
-    component: loadPage('ProfilePage')
+    component: loadPage('ProfilePage'),
+    beforeEnter: authSettled
   },
   {
     path: '/account',

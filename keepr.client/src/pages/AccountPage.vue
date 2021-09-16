@@ -1,7 +1,9 @@
 <template>
   <div class="about text-center container">
     <h1>Welcome {{ account.name }}</h1>
-    <img class="rounded" :src="account.picture" alt="" />
+    <router-link class="mt-auto ml-auto" :to="{name: 'ProfilePage', params: {id: account.id }}">
+      <img :src="account.picture" alt="profile image" class="profile-pic mt-auto ml-auto">
+    </router-link>
     <p>{{ account.email }}</p>
   </div>
 </template>

@@ -42,12 +42,17 @@ namespace keepr.Controllers
     }
 
     [HttpGet("{id}/keeps")]
-    public ActionResult<List<VaultKeepViewModel>> GetKeepsInVault(int id)
+    public async Task<ActionResult<List<VaultKeepViewModel>>> GetKeepsInVault(int id)
     {
       try
       {
-        List<VaultKeepViewModel> vault = _vks.GetKeepsInVault(id);
-        return Ok(vault);
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        if (userInfo == null) {
+        List<VaultKeepViewModel> vaultsNoAuth = _vks.GetKeepsInVault(id);
+        return Ok(vaultsNoAuth);
+        }
+        List<VaultKeepViewModel> vaults = _vks.GetKeepsInVault(id, userInfo.Id);
+        return Ok(vaults);
       }
       catch (System.Exception e)
       {

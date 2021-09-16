@@ -1,11 +1,12 @@
 using System;
+using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using keepr.Models;
 using keepr.Repositories;
 
 namespace keepr.Services
 {
-    public class VaultKeepsService
+  public class VaultKeepsService
     {
         private readonly VaultKeepsRepository _repo;
         private readonly VaultsRepository _vaultsRepo;
@@ -24,14 +25,17 @@ namespace keepr.Services
       return _repo.CreateVaultKeep(newVaultKeep);
     }
 
-    internal List<VaultKeepViewModel> GetKeepsInVault(int vaultId)
+    internal List<VaultKeepViewModel> GetKeepsInVault(int vaultId, [Optional] string userId)
     {
       Vault foundVault = _vaultsRepo.GetById(vaultId);
-      if (foundVault.IsPrivate == true)
-      {
-          throw new Exception("Sorry, this is a private vault.");
+      if (userId == null && foundVault.IsPrivate == true) {
+        throw new Exception("Sorry, this is a private vault");
       }
-        return _repo.GetKeepsInVault(vaultId);
+      if (userId != null && userId != foundVault.CreatorId) {
+        throw new Exception("Sorry this is a private vault");
+      }
+      return _repo.GetKeepsInVault(vaultId);
+
     }
 
 

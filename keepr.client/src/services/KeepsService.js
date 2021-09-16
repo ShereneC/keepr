@@ -26,13 +26,23 @@ class KeepsService {
 
   async getKeepsByVaultId(id) {
     const res = await api.get(`api/vaults/${id}/keeps`)
-    logger.log(res.data)
     AppState.keeps = res.data
   }
 
   async createKeep(keep) {
     const res = await api.post('/api/keeps', keep)
     AppState.keeps.push(res.data)
+  }
+
+  async deleteKeep(id) {
+    await api.delete('api/keeps/' + id)
+    keepsService.getAllKeeps()
+  }
+
+  async addKeepToVault(rawVaultKeep) {
+    const res = await api.post('api/vaultkeeps', rawVaultKeep)
+    AppState.vaultKeep = res.data
+    // should I call get all vaults here or something? Then should I push them to the vault details page?
   }
 }
 
