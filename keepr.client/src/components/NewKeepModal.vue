@@ -18,7 +18,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body text-left">
             <form @submit.prevent="createKeep">
               <div class="form-group">
                 <label for="">Keep Name</label>

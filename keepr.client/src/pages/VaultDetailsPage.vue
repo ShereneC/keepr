@@ -20,6 +20,9 @@
         <h4>Keeps: {{ numberKeeps }}</h4>
       </div>
       <div class="col-12">
+        <div v-if="loading" class="col text-center">
+          <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        </div>
         <div class="card-columns">
           <Keep v-for="k in keeps" :key="k.id" :keep="k" />
         </div>
@@ -29,7 +32,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core'
+import { computed, onMounted, ref } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
 
 import { AppState } from '../AppState'
@@ -40,6 +43,7 @@ import { keepsService } from '../services/KeepsService'
 export default {
 
   setup() {
+    const loading = ref(true)
     const route = useRoute()
     const router = useRouter()
     // const goHome = ref(false)
@@ -50,6 +54,7 @@ export default {
         //   route.push({ name: 'Home' })
         // }
         await keepsService.getKeepsByVaultId(route.params.id)
+        loading.value = false
       } catch (error) {
         Pop.toast(error, 'error')
         router.push({ name: 'Home' })
@@ -60,6 +65,7 @@ export default {
       vault: computed(() => AppState.activeVault),
       keeps: computed(() => AppState.keeps),
       account: computed(() => AppState.account),
+      vaultkeeps: computed(() => AppState.vaultkeeps),
       numberKeeps: computed(() => {
         return AppState.keeps.length
       }),

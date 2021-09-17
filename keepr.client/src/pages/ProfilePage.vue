@@ -26,7 +26,10 @@
       </div>
     </div>
     <!-- Middle row for profile's vaults - CARDS -->
-    <div class="row my-2">
+    <div v-if="loading" class="col text-center">
+      <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+    </div>
+    <div class="row my-2" v-else>
       <div class="col d-flex justify-content-center">
         <div class="card-deck">
           <Vault v-for="v in vaults" :key="v.id" :vault="v" />
@@ -50,7 +53,10 @@
       </div>
     </div>
     <!-- Bottom row for profile's keeps - CARDS -->
-    <div class="row my-2">
+    <div v-if="loading" class="col text-center">
+      <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+    </div>
+    <div class="row my-2" v-else>
       <div class="col-12">
         <div class="card-columns">
           <Keep v-for="k in keeps" :key="k.id" :keep="k" />
@@ -62,7 +68,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState'
 import { vaultsService } from '../services/VaultsService'
 import Pop from '../utils/Notifier'
@@ -72,12 +78,14 @@ import { profilesService } from '../services/ProfilesService'
 
 export default {
   setup() {
+    const loading = ref(true)
     const route = useRoute()
     onMounted(async() => {
       try {
         await profilesService.getProfileById(route.params.id)
         await vaultsService.getVaultsByProfileId(route.params.id)
         await keepsService.getKeepsByProfileId(route.params.id)
+        loading.value = false
       } catch (error) {
         Pop.toast(error, 'error')
       }

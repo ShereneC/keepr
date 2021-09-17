@@ -21,7 +21,6 @@ namespace keepr.Models
     public class VaultKeepViewModel : Keep
     {
       public int VaultKeepId { get; set; }
-      
-      // REVIEW I added Vault (below) to try and get the populate to work on VaultKeepsRepo GetKeepsInVault  - do I need this?
+
     }
 }

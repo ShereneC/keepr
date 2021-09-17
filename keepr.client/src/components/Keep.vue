@@ -37,6 +37,7 @@ export default {
   },
   setup(props) {
     const route = useRoute()
+    const router = useRouter()
     return {
       vaults: computed(() => AppState.vaults),
       account: computed(() => AppState.account),
@@ -55,6 +56,7 @@ export default {
           if (await Pop.confirm()) {
             await keepsService.removeKeepFromVault(props.keep.vaultKeepId)
             Pop.toast('Successfully Removed!', 'success')
+            // router.reload()
           }
         } catch (error) {
           Pop.toast(error, 'error')

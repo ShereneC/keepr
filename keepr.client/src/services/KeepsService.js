@@ -47,7 +47,18 @@ class KeepsService {
 
   async removeKeepFromVault(id) {
     await api.delete('api/vaultkeeps/' + id)
+    AppState.vaultkeeps = AppState.vaultkeeps.filter(vaultkeep => vaultkeep.id !== id)
+    // Proper way to do this is by using a filter on the Appstate!!!!  So I'v done, it but it is still not updating it on the page.
     // REVIEW do i need to call getallkeeps?  I would have to pass in a profile id as well.
+  }
+
+  // async increaseKeepKeeps(keepId) {
+  //   const res = await api.put('api/keeps/' + keepId, { keeps: keeps++})
+  // }
+
+  async editTask(newTask, taskId) {
+    const res = await api.put('api/tasks/' + taskId, newTask)
+    return res.data.sprintId
   }
 }
 

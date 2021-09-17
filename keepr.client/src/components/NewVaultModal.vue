@@ -18,7 +18,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body text-left">
             <form @submit.prevent="createVault">
               <div class="form-group">
                 <label for="">Vault Name</label>
@@ -39,7 +39,7 @@
                 >
               </div>
               <div class="form-group">
-                <label for="isPrivate" class="form-label">Private Vault</label>
+                <label for="isPrivate" class="form-label pr-1">Private Vault</label>
                 <input class="form-checkbox" type="checkbox" v-model="state.newVault.isPrivate">
               </div>
               <div class="modal-footer">
