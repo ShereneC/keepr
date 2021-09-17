@@ -29,8 +29,8 @@
             </div>
             <div class="border-top p-1 min">
             </div>
-            <div class="mt-auto d-flex align-items-center justify-content-around pt-5">
-              <form @submit.prevent="addKeepToVault(keep.id)">
+            <div class="mt-auto pb-1 d-flex align-items-center justify-content-around pt-5">
+              <form @submit.prevent="addKeepToVault(keep.id)" v-if="account.id">
                 <div class="form-group">
                   <select
                     name="vaultName"
@@ -53,8 +53,9 @@
               </p>
 
               <div>
-                <img :src="keep.creator.picture" alt="profile image" class="profile-pic mt-auto ml-auto">
-                {{ keep.creator.name }}
+                <!-- NOTE these weren't showing up because activekeep hasn't been set on homepage load, and you can't dig into an undefined property.  So either need v-if or question mark says - does it exist? no? okay, don't dig in any further, just leave it as undefined -->
+                <img :src="keep.creator?.picture" alt="profile image" class="profile-pic mt-auto ml-auto">
+                {{ keep.creator?.name }}
               </div>
             </div>
           </div>
@@ -76,35 +77,28 @@ import { vaultsService } from '../services/VaultsService'
 
 export default {
   props: {
-    keep: { type: Object, required: true }
+    // keep: { type: Object, required: true }
     // vault: { type: Object, required: true }
   },
-  name: 'KeepModal',
-  setup(props) {
+  setup() {
     const state = reactive({
       newVaultKeep: {
 
       }
     })
-    onMounted(async() => {
-      try {
-        await vaultsService.getVaultsByProfileId(AppState.account.id)
-        await keepsService.getKeepById(props.keep.id)
-        // need to go into appstate find it and increment it locally for it to show up here.
-      } catch (error) {
-        Pop.toast(error, 'error')
-      }
-    })
     return {
       state,
+      keep: computed(() => AppState.activeKeep),
       vaults: computed(() => AppState.vaults),
       account: computed(() => AppState.account),
-      // keep: computed(() => AppState.activeKeep) - At this point in time, I am not using activeKeep, do I need to?  Not seeing where Mark used it in restaurants.
+      // keeps: computed(() => AppState.keeps),
       async addKeepToVault(kId) {
         try {
           await keepsService.addKeepToVault({ keepId: kId, vaultId: state.newVaultKeep.vaultId })
+          // REVIEW mark said to research doing an sql increment count search
+          // await keepsService.increaseKeepCount(AppState.activeKeep.id)
           Pop.toast(' has been added to your vault!', 'success')
-          // $('#keep-modal').modal('hide') this isn't working
+          $('#keep-modal' + AppState.activeKeep.id).modal('hide')
         } catch (error) {
           Pop.toast(error, 'error')
         }
@@ -112,8 +106,8 @@ export default {
       async deleteKeep() {
         try {
           if (await Pop.confirm()) {
-            await keepsService.deleteKeep(props.keep.id)
-            $('#keep-modal' + props.keep.id).modal('hide')
+            await keepsService.deleteKeep(AppState.activeKeep.id)
+            $('#keep-modal' + AppState.activeKeep.id).modal('hide')
             Pop.toast('Successfully Deleted!', 'success')
             // router.push({ name: 'Home' })
           }
@@ -126,8 +120,7 @@ export default {
         // console.log(keepId, state.newVaultKeep.vaultId)
       }
     }
-  },
-  components: {}
+  }
 }
 
 </script>

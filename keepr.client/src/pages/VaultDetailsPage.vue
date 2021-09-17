@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 d-flex align-items-center justify-content-between">
         <h1>{{ vault.name }}</h1>
-        <h5 class="m-0 hoverable" v-if="account.id==vault.creatorId" :title="'Delete ' + vault.name" @click="deleteVault">
+        <h5 class="m-0 hoverable" v-if="account.id===vault.creatorId" :title="'Delete ' + vault.name" @click="deleteVault">
           <span class="fa fa-trash text-red"></span>
         </h5>
       </div>
@@ -62,6 +62,7 @@ export default {
     }
     )
     return {
+      loading,
       vault: computed(() => AppState.activeVault),
       keeps: computed(() => AppState.keeps),
       account: computed(() => AppState.account),

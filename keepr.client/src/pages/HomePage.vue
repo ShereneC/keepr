@@ -28,7 +28,7 @@ export default {
       try {
         await keepsService.getAllKeeps()
         loading.value = false
-        await vaultsService.getVaultsByProfileId(AppState.account.id)
+        // await vaultsService.getVaultsByProfileId(AppState.account.id) Do i need this?
       } catch (error) {
         Pop.toast(error, 'error')
       }

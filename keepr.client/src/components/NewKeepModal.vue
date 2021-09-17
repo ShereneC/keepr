@@ -34,6 +34,7 @@
                 <input type="text"
                        id="imgUrl"
                        class="form-control"
+                       aria-describedby="imgUrl"
                        placeholder="Image Url..."
                        v-model="state.newKeep.img"
                 >

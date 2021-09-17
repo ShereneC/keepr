@@ -6,7 +6,10 @@
         <img class="rounded" :src="profile.picture" alt="" />
       </div>
       <div class="col-md-10 d-flex flex-column align-items-start">
-        <h1>Welcome {{ profile.name }}</h1>
+        <h1 class="text-break">
+          {{ profile.name }}'s Profile
+          <!-- Welcome {{ profile.name.split('@')[0] }} ! -->
+        </h1>
         <h4>Vaults: {{ vaults.length }}</h4>
         <h4>Keeps:  {{ keeps.length }}</h4>
       </div>
@@ -82,15 +85,20 @@ export default {
     const route = useRoute()
     onMounted(async() => {
       try {
+        // console.log('ProfilePage onMounted')
         await profilesService.getProfileById(route.params.id)
+        // console.log(AppState.profile)
         await vaultsService.getVaultsByProfileId(route.params.id)
+        // console.log(AppState.vaults)
         await keepsService.getKeepsByProfileId(route.params.id)
+        // console.log(AppState.keeps)
         loading.value = false
       } catch (error) {
         Pop.toast(error, 'error')
       }
     })
     return {
+      loading,
       account: computed(() => AppState.account),
       vaults: computed(() => AppState.vaults),
       keeps: computed(() => AppState.keeps),

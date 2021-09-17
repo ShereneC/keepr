@@ -8,10 +8,10 @@
       Public Vault
     </div>
     <div class="card-body">
-      <router-link class="mt-auto ml-auto" :to="{name: 'VaultDetails', params: {id: vault.id}}">
-        <h5 class="card-title">
+      <router-link class="mt-auto ml-auto vault" :to="{name: 'VaultDetails', params: {id: vault.id}}">
+        <h4 class="card-title" title="Open vault details">
           {{ vault.name }}
-        </h5>
+        </h4>
       </router-link>
       <p class="card-text">
         {{ vault.description }}
@@ -36,5 +36,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.vault {
+  text-decoration: none;
+  color: inherit
+}
 </style>
