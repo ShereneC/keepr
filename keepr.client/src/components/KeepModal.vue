@@ -3,11 +3,11 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content container-fluid">
         <div class="row">
-          <div class="col-md-6 border p-0">
+          <div class="col-md-6 p-0">
             <img class="pic h-100 p-1" :src="keep.img" alt="Keep image" style="width:100%">
           </div>
-          <div class="col-md-6 border d-flex flex-column">
-            <div class="text-right">
+          <div class="col-md-6 d-flex flex-column">
+            <div class="text-right pt-2">
               <p class="btn btn-secondary" data-dismiss="modal">
                 X
               </p>
