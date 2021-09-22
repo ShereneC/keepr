@@ -4,6 +4,7 @@ import { api } from './AxiosService'
 
 class VaultsService {
   async getVaultById(id) {
+    // debugger
     const found = AppState.vaults.find(v => v.id.toString() === id)
     if (found) {
       AppState.activeVault = found

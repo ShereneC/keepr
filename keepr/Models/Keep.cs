@@ -22,5 +22,7 @@ namespace keepr.Models
     {
       public int VaultKeepId { get; set; }
 
+      public int VaultKeepCreatorId { get; set; }
+
     }
 }

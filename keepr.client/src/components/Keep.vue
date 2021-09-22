@@ -2,7 +2,7 @@
   <div class="keep card img-fluid rounded elevation-1 bg-light my-3 text-left selectable">
     <img class="card-img-top" :src="keep.img" alt="Card image" style="width:100%">
     <div class="card-img-overlay d-flex">
-      <h5 class="hoverable titleText text-red" title="Remove from vault" v-show="account.id==keep.creatorId &&homepage == false" @click="removeKeep">
+      <h5 class="hoverable titleText text-red" title="Remove from vault" v-show="account.id==keep.creator?.id &&homepage == false" @click="removeKeep">
         X
       </h5>
       <h4 class="card-title text-white titleText mt-auto"

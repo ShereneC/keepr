@@ -114,11 +114,11 @@ export default {
         } catch (error) {
           Pop.toast(error, 'error')
         }
-      },
-      clickMe(keepId) {
-        // Just made this to see what was coming through from the state
-        // console.log(keepId, state.newVaultKeep.vaultId)
       }
+      // clickMe(keepId) {
+      // Just made this to see what was coming through from the state
+      // console.log(keepId, state.newVaultKeep.vaultId)
+      // }
     }
   }
 }

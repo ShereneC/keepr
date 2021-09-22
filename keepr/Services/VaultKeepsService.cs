@@ -31,7 +31,7 @@ namespace keepr.Services
       if (userId == null && foundVault.IsPrivate == true) {
         throw new Exception("Sorry, this is a private vault");
       }
-      if (userId != null && userId != foundVault.CreatorId) {
+      if ((userId != null && userId != foundVault.CreatorId) && foundVault.IsPrivate == true) {
         throw new Exception("Sorry this is a private vault");
       }
       return _repo.GetKeepsInVault(vaultId);
