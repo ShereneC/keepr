@@ -27,7 +27,7 @@ jobs:
       # dotnet build and publish
       - name: dotnet publish
         run: |
-          dotnet publish ./keeprtest -c Release
+          dotnet publish ./keepr -c Release
       - name: Build, Push and Release a Docker container to Heroku.
         uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
