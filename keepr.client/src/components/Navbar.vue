@@ -1,8 +1,8 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-none shadow">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <h1 class="fonttop">
+        <h1 class="fonttop text-dark">
           Keepr
         </h1>
       </div>
@@ -52,7 +52,7 @@
               height="40"
               class="rounded"
             />
-            <span class="mx-3">{{ user.name }}</span>
+            <span class="mx-3 text-dark">{{ user.name }}</span>
           </div>
           <div
             class="dropdown-menu p-0 list-group w-100"

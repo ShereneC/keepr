@@ -1,5 +1,5 @@
 <template>
-  <div class="card text-white bg-secondary m-2" style="max-width: 10rem; min-width: 12rem;">
+  <div class="card text-white bg-dark m-2" style="max-width: 10rem; min-width: 12rem;">
     <!-- REVIEW not sure if these v-ifs are working or not -->
     <div class="card-header text-left" v-if="vault.isPrivate==true">
       Private Vault
